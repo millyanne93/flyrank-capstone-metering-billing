@@ -126,6 +126,7 @@ bash
 curl http://localhost:3000/api/usage/11111111-1111-1111-1111-111111111111
 ```
 ##📊 Database Schema
+```bash
 Tables
 Table	Purpose
 tenants	Customer organizations
@@ -136,7 +137,7 @@ Plans
 Plan	API Calls / Month	AI Tokens / Month	Price
 Free	1,000	100,000	$0
 Pro	10,000	1,000,000	$29/month
-
+```
 
 ## 🔐 Key Design Decisions
 Idempotency via database constraint - idempotency_key UNIQUE
