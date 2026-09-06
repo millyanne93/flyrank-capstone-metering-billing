@@ -26,15 +26,15 @@ This engine answers all three with idempotent metering, token pricing, and Strip
 - Usage rollup with cost calculation
 - Subscription status checks (402 for inactive)
 
-### Phase 3: Stripe Integration ⏳
+### Phase 3: Stripe Integration ✅
 - Checkout session creation
 - Webhook signature verification
+- Webhook deduplication
 - Subscription plan synchronization
 
 ### Phase 4: Cost & Finalization ⏳
-- Cost rollups with real-world rules
-- README + architecture diagram
-- EVIDENCE.md with proofs
+- Final documentation
+- Project completion
 
 ## 🛠️ Tech Stack
 
@@ -93,9 +93,9 @@ Metering & Usage
 Method	Endpoint	Description
 POST	/api/generate	Record usage (idempotent)
 GET	/api/usage/:tenantId	Get usage summary
-Stripe Integration (Phase 3)
+Stripe Integration
 Method	Endpoint	Description
-POST	/api/checkout	Create Checkout session
+POST	/api/checkout	Create Stripe Checkout session
 POST	/api/webhooks/stripe	Stripe webhook handler
 🧪 Testing
 Record an API Call
@@ -108,32 +108,14 @@ curl -X POST http://localhost:3000/api/generate \
     "usage_type": "api_call",
     "quantity": 1
   }'
-Test Idempotency (Same Key)
+Create Checkout Session
 bash
-# Same request returns cached result
-curl -X POST http://localhost:3000/api/generate \
+curl -X POST http://localhost:3000/api/checkout \
   -H "Content-Type: application/json" \
-  -H "Idempotency-Key: test-key-1" \
   -d '{
     "tenant_id": "11111111-1111-1111-1111-111111111111",
-    "usage_type": "api_call",
-    "quantity": 1
-  }'
-Record AI Token Usage
-bash
-curl -X POST http://localhost:3000/api/generate \
-  -H "Content-Type: application/json" \
-  -H "Idempotency-Key: test-key-2" \
-  -d '{
-    "tenant_id": "11111111-1111-1111-1111-111111111111",
-    "usage_type": "ai_token",
-    "quantity": 500,
-    "token_breakdown": {
-      "input_tokens": 300,
-      "cached_input_tokens": 100,
-      "output_tokens": 80,
-      "reasoning_tokens": 20
-    }
+    "success_url": "http://localhost:3000/success",
+    "cancel_url": "http://localhost:3000/cancel"
   }'
 Get Usage Summary
 bash
@@ -164,7 +146,7 @@ Stripe test mode only - No real money ever
 Phase	Status	Completion
 Phase 1: Design & Setup	✅ Complete	100%
 Phase 2: Core Billing Logic	✅ Complete	100%
-Phase 3: Stripe Integration	⏳ Pending	0%
+Phase 3: Stripe Integration	✅ Complete	100%
 Phase 4: Cost & Finalization	⏳ Pending	0%
 📝 Documentation
 DESIGN.md — Architecture and design decisions

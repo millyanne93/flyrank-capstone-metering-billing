@@ -71,17 +71,57 @@
 | Metering | ✅ PASS | Idempotent recording |
 | Routes | ✅ PASS | /api/generate and /api/usage |
 
+## Phase 3: Stripe Integration
+
+### AI Tools Used
+- **Tool**: Claude (via web interface)
+- **Purpose**: Stripe Checkout implementation, webhook handler, signature verification
+- **Frequency**: Heavy usage during Phase 3 implementation
+
+### Where AI Helped
+
+| File/Component | What AI Provided | My Changes |
+|----------------|------------------|------------|
+| stripe.service.ts | Checkout session creation | Added tenant metadata |
+| webhook.handler.ts | Webhook processing logic | Added raw body handling |
+| subscription.routes.ts | /api/checkout endpoint | Added validation |
+
+### Where AI Got It Wrong
+
+| Issue | What Happened | How I Fixed It |
+|-------|---------------|----------------|
+| Webhook signature | Verification failed | Used express.raw() BEFORE express.json() |
+| Webhook secret mismatch | CLI secret kept changing | Used permanent secret from Dashboard |
+| Raw body not string | Buffer was breaking verification | Converted Buffer to string first |
+| Wrong Stripe account | Price not found in account | Switched to correct account context |
+
+### Lessons Learned
+1. **express.raw() must come BEFORE express.json()** - Middleware order matters
+2. **Webhook secret can be permanent** - Use Dashboard for consistent testing
+3. **Stripe CLI context must match account** - Check with `stripe status`
+4. **Raw body must be a string** - Convert Buffer with `.toString('utf8')`
+
+### Phase 3 Status
+
+| Feature | Status | Evidence |
+|---------|--------|----------|
+| Checkout Session | ✅ Working | Created successfully |
+| Webhook Handler | ✅ Working | Events processed |
+| Signature Verification | ✅ Working | No more errors |
+| Tenant Upgrade | ✅ Working | `plan: "pro"` |
+| Subscription Sync | ✅ Working | Status updated |
+
 ---
 
-## AI Usage Summary (Phase 1-2)
+## AI Usage Summary (Phase 1-3)
 
 | Metric | Value |
 |--------|-------|
-| Total AI-assisted files | 15+ |
+| Total AI-assisted files | 20+ |
 | AI code generation % | ~65% |
 | Manual fixes/adaptations | ~35% |
-| Bugs introduced by AI | 3 |
-| Bugs caught by human review | 3 |
+| Bugs introduced by AI | 4 |
+| Bugs caught by human review | 4 |
 | Bugs in production | 0 |
 
 ---

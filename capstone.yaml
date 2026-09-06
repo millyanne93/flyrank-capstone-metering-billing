@@ -1,9 +1,9 @@
 # FlyRank Capstone - Usage Metering & Billing Engine
-# Phase 2: Core Billing Logic Complete
+# Phase 3: Stripe Integration Complete
 
 name: flyrank-capstone-metering-billing
-version: 2.0.0
-phase: 2
+version: 3.0.0
+phase: 3
 
 # Run commands
 run:
@@ -42,6 +42,17 @@ endpoints:
     method: GET
     expected_status: 200
 
+  checkout:
+    path: /api/checkout
+    method: POST
+    headers:
+      Content-Type: application/json
+    body:
+      tenant_id: "11111111-1111-1111-1111-111111111111"
+      success_url: "http://localhost:3000/success"
+      cancel_url: "http://localhost:3000/cancel"
+    expected_status: 200
+
 # Database
 database:
   host: localhost
@@ -71,9 +82,16 @@ features:
     - Token pricing rules
     - Usage rollup endpoint
 
+  phase3:
+    - Stripe Checkout session creation
+    - Webhook signature verification
+    - Webhook deduplication
+    - Tenant plan upgrade on checkout
+    - Subscription status synchronization
+
 # Status
 status:
   phase1: complete
   phase2: complete
-  phase3: not_started
+  phase3: complete
   phase4: not_started
