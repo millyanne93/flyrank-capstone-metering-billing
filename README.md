@@ -58,7 +58,7 @@ This engine answers all three with idempotent metering, token pricing, and Strip
 # Clone the repository
 git clone https://github.com/yourusername/flyrank-capstone-metering-billing.git
 cd flyrank-capstone-metering-billing
-
+```
 # Install dependencies
 npm install
 
@@ -75,7 +75,7 @@ npm run seed
 npm run dev
 Environment Variables
 Create a .env file:
-
+```bash
 env
 PORT=3000
 NODE_ENV=development
@@ -85,7 +85,9 @@ STRIPE_SECRET_KEY=sk_test_...
 STRIPE_PRO_PRICE_ID=price_...
 STRIPE_WEBHOOK_SECRET=whsec_...
 LOG_LEVEL=debug
-📡 API Endpoints
+```
+## 📡 API Endpoints
+```bash
 Health Check
 Method	Endpoint	Description
 GET	/health	Health check
@@ -97,9 +99,10 @@ Stripe Integration
 Method	Endpoint	Description
 POST	/api/checkout	Create Stripe Checkout session
 POST	/api/webhooks/stripe	Stripe webhook handler
-🧪 Testing
+```
+## 🧪 Testing
 Record an API Call
-bash
+```bash
 curl -X POST http://localhost:3000/api/generate \
   -H "Content-Type: application/json" \
   -H "Idempotency-Key: test-key-1" \
@@ -117,10 +120,12 @@ curl -X POST http://localhost:3000/api/checkout \
     "success_url": "http://localhost:3000/success",
     "cancel_url": "http://localhost:3000/cancel"
   }'
+
 Get Usage Summary
 bash
 curl http://localhost:3000/api/usage/11111111-1111-1111-1111-111111111111
-📊 Database Schema
+```
+##📊 Database Schema
 Tables
 Table	Purpose
 tenants	Customer organizations
@@ -131,7 +136,9 @@ Plans
 Plan	API Calls / Month	AI Tokens / Month	Price
 Free	1,000	100,000	$0
 Pro	10,000	1,000,000	$29/month
-🔐 Key Design Decisions
+
+
+## 🔐 Key Design Decisions
 Idempotency via database constraint - idempotency_key UNIQUE
 
 Quota check after idempotency - Retries return same result
@@ -142,20 +149,22 @@ Reasoning tokens = output tokens - No separate free category
 
 Stripe test mode only - No real money ever
 
-📈 Phase Status
+## 📈 Phase Status
+```bash
 Phase	Status	Completion
 Phase 1: Design & Setup	✅ Complete	100%
 Phase 2: Core Billing Logic	✅ Complete	100%
 Phase 3: Stripe Integration	✅ Complete	100%
 Phase 4: Cost & Finalization	⏳ Pending	0%
-📝 Documentation
+```
+## 📝 Documentation
 DESIGN.md — Architecture and design decisions
 
 EVIDENCE.md — Definition of Done proof
 
 BUILDLOG.md — AI usage and lessons learned
 
-📄 License
+## 📄 License
 MIT
 
 Built with as part of the FlyRank Capstone Program
