@@ -1,0 +1,79 @@
+# FlyRank Capstone - Usage Metering & Billing Engine
+# Phase 2: Core Billing Logic Complete
+
+name: flyrank-capstone-metering-billing
+version: 2.0.0
+phase: 2
+
+# Run commands
+run:
+  command: npm run dev
+  env_file: .env
+
+# Seed command
+seed:
+  command: npm run seed
+  creates: plans
+
+# Base URL
+base_url: http://localhost:3000
+
+# Endpoints to probe
+endpoints:
+  health:
+    path: /health
+    method: GET
+    expected_status: 200
+
+  generate:
+    path: /api/generate
+    method: POST
+    headers:
+      Content-Type: application/json
+      Idempotency-Key: test-probe-1
+    body:
+      tenant_id: "11111111-1111-1111-1111-111111111111"
+      usage_type: "api_call"
+      quantity: 1
+    expected_status: 200
+
+  usage:
+    path: /api/usage/11111111-1111-1111-1111-111111111111
+    method: GET
+    expected_status: 200
+
+# Database
+database:
+  host: localhost
+  port: 5434
+  name: metering_billing
+  user: postgres
+  password: postgres
+  migrations:
+    - src/db/migrations/001_create_tenants.sql
+    - src/db/migrations/002_create_plans.sql
+    - src/db/migrations/003_create_usage_events.sql
+    - src/db/migrations/004_create_webhook_events.sql
+
+# Features
+features:
+  phase1:
+    - Design document
+    - Stripe test mode configured
+    - Project structure created
+    - Pro Plan Price ID created
+
+  phase2:
+    - Database migrations (4 tables)
+    - Plans seeded (Free + Pro)
+    - Idempotent metering
+    - Quota enforcement
+    - Token pricing rules
+    - Usage rollup endpoint
+
+# Status
+status:
+  phase1: complete
+  phase2: complete
+  phase3: not_started
+  phase4: not_started
